@@ -1,0 +1,277 @@
+int click1 = 5;
+int y1 = A0;
+int x1 = A1;
+int click2 = 2;
+int x2 = A3;
+int y2 = A4;
+int up = 1000;
+int down = 10;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(click1, INPUT);
+  pinMode(x1, INPUT);
+  pinMode(y1, INPUT);
+  pinMode(click2, INPUT);
+  pinMode(x2, INPUT);
+  pinMode(y2, INPUT);
+  
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  
+
+  checkLeftJoystick();
+  checkRightJoystick();
+  
+
+}
+
+void checkLeftJoystick(){
+
+    int xval1=analogRead(x1);
+    int yval1 = analogRead(y1);
+
+    if(xval1>up) {
+    
+    if(yval1>up) goUpRight(xval1,yval1);
+    else if(yval1<down) goDownRight(xval1, yval1);
+    else goRight(xval1);
+    
+    }
+
+  if(xval1<down){
+    
+    if(yval1>up) goUpLeft(xval1,yval1);
+    else if(yval1<down) goDownLeft(xval1, yval1);
+    else goLeft(xval1);
+    
+    }
+   if(yval1>up) {
+    
+    if(xval1>up) goUpRight(xval1,yval1);
+    else if(xval1<down) goUpLeft(xval1, yval1);
+    else goUp(yval1);
+    
+    }
+
+  if(yval1<down){
+    
+    if(xval1>up) goDownRight(xval1,yval1);
+    else if(xval1<down) goDownLeft(xval1, yval1);
+    else goDown(yval1);
+    
+    }
+}
+
+void checkRightJoystick(){
+
+    int xval2 = analogRead(x2);
+    int yval2 = analogRead(y2);
+
+    if(xval2>up) {
+    
+    if(yval2>up) goUpRight2(xval2,yval2);
+    else if(yval2<down) goDownRight2(xval2, yval2);
+    else goRight2(xval2);
+    
+    }
+
+  if(xval2<down){
+    
+    if(yval2>up) goUpLeft2(xval2,yval2);
+    else if(yval2<down) goDownLeft2(xval2, yval2);
+    else goLeft2(xval2);
+    
+    }
+  if(yval2>up) {
+    
+    if(xval2>up) goUpRight2(xval2,yval2);
+    else if(xval2<down) goUpLeft2(xval2, yval2);
+    else goUp2(yval2);
+    
+    }
+
+  if(yval2<down){
+    
+    if(xval2>up) goDownRight2(xval2,yval2);
+    else if(xval2<down) goDownLeft2(xval2, yval2);
+    else goDown2(yval2);
+    }
+}
+
+void goUpRight(int x, int y){
+  Serial.write(5);
+  int i=0;
+  while(i==0){
+    x = analogRead(x1);
+    y = analogRead(y1);
+    if(x<up || y<up){Serial.write(0); break;}
+    }
+    return;
+  }
+ void goDownRight(int x, int y){
+  Serial.write(6);
+  int i=0;
+  while(i==0){
+    x = analogRead(x1);
+    y = analogRead(y1);
+    if(x<up || y>down){Serial.write(0); break;}
+    }
+    return;
+  }
+  void goDownLeft(int x, int y){
+  Serial.write(7);
+  int i=0;
+  while(i==0){
+    x = analogRead(x1);
+    y = analogRead(y1);
+    if(x>down || y>down) {Serial.write(0); break;}
+    }
+    return;
+  }
+  void goUpLeft(int x, int y){
+  Serial.write(8);
+  int i=0;
+  while(i==0){
+    x = analogRead(x1);
+    y = analogRead(y1);
+    if(x > down || y < up) {Serial.write(0); break;}
+    }
+    return;
+  }
+  void goRight(int x){
+  Serial.write(1);
+  int i=0;
+  while(i==0){
+    x = analogRead(x1);
+    int y = analogRead(y1);
+    checkRightJoystick();
+    if(x<up) {Serial.write(0); break;}
+    if(y>up){Serial.write(0); break;}
+    if(y<down){Serial.write(0); break;}
+    }
+    return;
+  }
+  void goLeft(int x){
+  Serial.write(2);
+  int i=0;
+  while(i==0){
+    int x = analogRead(x1);
+    int y = analogRead(y1);
+    if(x>down) {Serial.write(0); break;}
+    if(y>up) {Serial.write(0); break;}
+    if(y<down) {Serial.write(0); break;}
+    }
+    return;
+  }
+  void goUp(int y){
+  Serial.write(3);
+  int i=0;
+  while(i==0){
+    y = analogRead(y1);
+    int x = analogRead(x1);
+    if(y<up) {Serial.write(0); break;}
+    if(x>up){Serial.write(0); Serial.write(5); break;}
+    }
+    return;
+  }
+  void goDown(int y){
+  Serial.write(4);
+  int i=0;
+  while(i==0){
+    int y = analogRead(y1);
+    if(y>down) {Serial.write(0); break;}
+    }
+    return;
+  }
+
+//JOYSTCIK #2 FUNCTIONS
+
+void goUpRight2(int x, int y){
+  Serial.write(15);
+  int i=0;
+  while(i==0){
+    x = analogRead(x2);
+    y = analogRead(y2);
+    if(x<up || y<up){Serial.write(10); break;}
+    }
+    return;
+  }
+ void goDownRight2(int x, int y){
+  Serial.write(16);
+  int i=0;
+  while(i==0){
+    x = analogRead(x2);
+    y = analogRead(y2);
+    if(x<up || y>down){Serial.write(10); break;}
+    }
+    return;
+  }
+  void goDownLeft2(int x, int y){
+  Serial.write(17);
+  int i=0;
+  while(i==0){
+    x = analogRead(x2);
+    y = analogRead(y2);
+    if(x>down || y>down) {Serial.write(10); break;}
+    }
+    return;
+  }
+  void goUpLeft2(int x, int y){
+  Serial.write(18);
+  int i=0;
+  while(i==0){
+    x = analogRead(x2);
+    y = analogRead(y2);
+    if(x > down || y < up) {Serial.write(10); break;}
+    }
+    return;
+  }
+  void goRight2(int x){
+  Serial.write(11);
+  int i=0;
+  while(i==0){
+    x = analogRead(x2);
+    int y = analogRead(y2);
+    if(x<up) {Serial.write(10); break;}
+    if(y>up){Serial.write(10); break;}
+    if(y<down){Serial.write(10); break;}
+    checkLeftJoystick();
+    }
+    return;
+  }
+  void goLeft2(int x){
+  Serial.write(12);
+  int i=0;
+  while(i==0){
+    int x = analogRead(x2);
+    int y = analogRead(y2);
+    if(x>down) {Serial.write(10); break;}
+    if(y>up) {Serial.write(10); break;}
+    if(y<down) {Serial.write(10); break;}
+    }
+    return;
+  }
+  void goUp2(int y){
+  Serial.write(13);
+  int i=0;
+  while(i==0){
+    y = analogRead(y2);
+    int x = analogRead(x2);
+    if(y<up) {Serial.write(10); break;}
+    if(x>up){Serial.write(10); Serial.write(5); break;}
+    }
+    return;
+  }
+  void goDown2(int y){
+  Serial.write(14);
+  int i=0;
+  while(i==0){
+    int y = analogRead(y2);
+    if(y>down) {Serial.write(10); break;}
+    }
+    return;
+  }
